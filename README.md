@@ -12,3 +12,7 @@ gox config rm <库别名>              移除库别名
 gox config ls                       关系列表
 gox add --lib=<库别名>              快速添加依赖，多个依赖用英文逗号分割%   
 ```
+
+
+# 开始使用
+clone项目后，执行build.sh里的命令即可。（仅限于linux和macos），windows用户请自己配置环境变量
