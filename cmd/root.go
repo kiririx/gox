@@ -4,9 +4,8 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -28,21 +27,24 @@ func Execute() {
 	}
 
 	act = rootCmd.Flags().Arg(0)
+	libs := rootCmd.PersistentFlags().String("lib", "", "libs, for example, gin,gorm,anyLib")
 	switch act {
 	case "config":
 		subAct := rootCmd.Flags().Arg(1)
+		subVal := rootCmd.Flags().Arg(2)
+
 		switch subAct {
 		case "set":
-			goxSet()
+			goxSet(subVal)
 		case "rm":
-			goxRm()
+			goxRm(subVal)
 		case "ls":
 			goxLs()
 		}
 	case "create":
 		create()
 	case "add":
-		add()
+		add(*libs)
 	}
 }
 
