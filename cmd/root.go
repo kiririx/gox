@@ -5,14 +5,13 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"os"
+	addPkg "kiririx/gox/cmd/add"
+	"kiririx/gox/cmd/config"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "gox",
-	Short: "",
-	Long:  ``,
+	Use: "gox",
 }
 
 var lib = ""
@@ -21,43 +20,11 @@ var act = ""
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
-
-	act = rootCmd.Flags().Arg(0)
-	libs := rootCmd.PersistentFlags().String("lib", "", "libs, for example, gin,gorm,anyLib")
-	switch act {
-	case "config":
-		subAct := rootCmd.Flags().Arg(1)
-		subVal := rootCmd.Flags().Arg(2)
-
-		switch subAct {
-		case "set":
-			goxSet(subVal)
-		case "rm":
-			goxRm(subVal)
-		case "ls":
-			goxLs()
-		}
-	case "create":
-		create()
-	case "add":
-		add(*libs)
-	}
+	rootCmd.SetUsageTemplate(help)
+	_ = rootCmd.Execute()
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.gox.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	rootCmd.PersistentFlags().StringVar(&lib, "lib", "", "The library name to add, multiple are separated by commas")
-
+	rootCmd.AddCommand(config.CmdConfig)
+	rootCmd.AddCommand(addPkg.CmdAdd)
 }
